@@ -36,9 +36,11 @@ class SuperSpider(CrawlSpider):
         self.suffix_list = allowed_suffix
         self.max_depth = max_depth
         self.filter_depth = filter_depth
+        '''
         custom_settings = {
             "DEPTH_LIMIT": max_depth #not currently working :(
         }
+        '''
 
     def parse_item(self, response):
         self.log("scraper {}".format(self.name))
