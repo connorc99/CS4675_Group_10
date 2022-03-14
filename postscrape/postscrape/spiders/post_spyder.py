@@ -8,6 +8,7 @@ from pydispatch import dispatcher
 
 import datetime
 import csv
+import time
  
 class SuperSpider(CrawlSpider):
     name = 'extractor'
@@ -21,11 +22,36 @@ class SuperSpider(CrawlSpider):
         "research": [],
         "online": []
     }
+
+    custom_settings = {
+        "DEPTH_LIMIT": 10
+    }
+
+
     pages_crawled = 0
 
+    def __init__(self, name = "default", allowed_suffix = None, max_depth = 20, filter_depth = 10):
+        super(SuperSpider, self).__init__()
+        self.name = name
+        self.suffix_list = allowed_suffix
+        self.max_depth = max_depth
+        self.filter_depth = filter_depth
+        custom_settings = {
+            "DEPTH_LIMIT": max_depth #not currently working :(
+        }
+
     def parse_item(self, response):
-        self.log('crawling'.format(response.url))
-        
+        self.log("scraper {}".format(self.name))
+        self.log('crawling {}'.format(response.url))
+        self.log('current depth: {}'.format(response.meta['depth']))
+
+        #time.sleep(1) #delete after testing
+
+        suffix = response.url.split("edu")[1][0]
+
+        if response.meta['depth'] > self.filter_depth and False and suffix not in self.suffix_list: #once past certain level, must meet prefix
+            self.log('filtered out suffix past depth')
+            return
         if self.pages_crawled % 100 == 0:
             stats = self.crawler.stats.get_stats()
             with open('test_stats_{}.csv'.format(self.pages_crawled), 'w') as csv_file:  

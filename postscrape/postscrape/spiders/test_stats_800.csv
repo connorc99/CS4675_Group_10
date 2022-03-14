@@ -1,0 +1,40 @@
+log_count/INFO,10
+start_time,2022-03-14 22:24:39.083923
+scheduler/enqueued/memory,2460
+scheduler/enqueued,2460
+scheduler/dequeued/memory,1652
+scheduler/dequeued,1652
+downloader/request_count,1652
+downloader/request_method_count/GET,1652
+downloader/request_bytes,459100
+downloader/response_count,1635
+downloader/response_status_count/200,825
+downloader/response_bytes,29738080
+log_count/DEBUG,4886
+response_received_count,1037
+request_depth_max,31
+dupefilter/filtered,18031
+offsite/domains,831
+offsite/filtered,18648
+log_count/ERROR,16
+spider_exceptions/IndexError,5
+downloader/response_status_count/302,376
+downloader/response_status_count/404,165
+httpcompression/response_bytes,184746
+httpcompression/response_count,8
+downloader/response_status_count/403,54
+downloader/response_status_count/301,212
+spider_exceptions/AttributeError,10
+log_count/WARNING,1
+downloader/exception_count,1
+downloader/exception_type_count/twisted.internet.error.TCPTimedOutError,1
+retry/count,3
+retry/reason_count/twisted.internet.error.TCPTimedOutError,1
+downloader/response_status_count/503,3
+retry/reason_count/503 Service Unavailable,2
+retry/max_reached,1
+computing,425
+undergraduate,285
+research,399
+online,277
+current_time,2022-03-14 18:26:12.208273

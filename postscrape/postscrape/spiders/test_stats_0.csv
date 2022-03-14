@@ -1,23 +1,28 @@
 log_count/INFO,9
-start_time,2022-03-14 21:18:56.588080
+start_time,2022-03-14 22:31:13.937258
 scheduler/enqueued/memory,59
 scheduler/enqueued,59
-scheduler/dequeued/memory,18
-scheduler/dequeued,18
-downloader/request_count,18
-downloader/request_method_count/GET,18
-downloader/request_bytes,4884
-downloader/response_count,2
-downloader/response_status_count/200,2
-downloader/response_bytes,118834
-log_count/DEBUG,56
-response_received_count,2
+scheduler/dequeued/memory,23
+scheduler/dequeued,23
+downloader/request_count,24
+downloader/request_method_count/GET,24
+downloader/request_bytes,6517
+robotstxt/request_count,1
+log_count/DEBUG,127
+downloader/response_count,8
+downloader/response_status_count/200,8
+downloader/response_bytes,406773
+response_received_count,8
+robotstxt/response_count,1
+robotstxt/response_status_count/200,1
 request_depth_max,1
 dupefilter/filtered,2
 offsite/domains,52
 offsite/filtered,63
-computing,0
-undergraduate,0
-research,0
-online,0
-current_time,2022-03-14 17:18:57.308403
+log_count/ERROR,1
+spider_exceptions/IndexError,1
+computing,1
+undergraduate,1
+research,1
+online,1
+current_time,2022-03-14 18:31:14.886981
