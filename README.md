@@ -51,13 +51,21 @@ These files are needed for the final analysis- for project 1, I took these into 
 - Persistence of URLs for duplicate checking across spiders
 
   https://stackoverflow.com/questions/51225781/how-to-prevent-duplicates-on-scrapy-fetching-depending-on-an-existing-json-list
+  https://stackoverflow.com/questions/61526698/scrapy-check-mongodb-for-duplicates-before-crawling
 
+  - Likely will create a JSON file, add URLs to said file, check if already in file - will be expensive but eh
   - Brute force solution: add all URLs we have scraped to DB or JSON file, check for occurance of current URL in that database
   - Could be a little wonky w/ 2 scrapers at once w/ read write issues, but should be sufficient for this project
 
 - Analysis of unique URLs scraped by each scraper, levels of recursion reached
 - Analysis of optimal DEPTH_LIMIT, max_depth, number of subprocesses and different distribution of suffix list for base URL
 - Unlikely we will end up doing recommendation system, enough work to do here for project
+
+
+Notes/ to fix:
+ - Currently filters out ANY duplicates - we want it to add URLs to queue to scrape even if it is in the database up until a certain level of depth is reached
+ - No longer need CSV files
+ - Add timestamps to SQL entries
 
 
 
