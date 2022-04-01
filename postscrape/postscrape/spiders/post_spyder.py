@@ -9,6 +9,9 @@ from pydispatch import dispatcher
 import datetime
 import csv
 import time
+
+import sqlite3
+from sqlite3 import Error
  
 class SuperSpider(CrawlSpider):
     name = 'extractor'
@@ -41,11 +44,18 @@ class SuperSpider(CrawlSpider):
             "DEPTH_LIMIT": max_depth #not currently working :(
         }
         '''
+        self.connection = self.create_connection("db/urldatabase.db")
+        self.cur = self.connection.cursor()
+        #self.cur.execute("create table urls (scraper_id, url)")
 
     def parse_item(self, response):
         self.log("scraper {}".format(self.name))
         self.log('crawling {}'.format(response.url))
         self.log('current depth: {}'.format(response.meta['depth']))
+
+        #check and see if already in database, if so do not parse the item
+        if self.check_in_db(response.url):
+            return
 
         #time.sleep(1) #delete after testing
 
@@ -76,6 +86,10 @@ class SuperSpider(CrawlSpider):
                 self.keywords[keyword].append(response.url)
             else:
                 pass
+        
+        #add to persistent memory storage
+        self.add_to_db(response.url)
+
         #print(self.crawler.stats.get_stats())
 
     def close(self, spider):
@@ -93,3 +107,35 @@ class SuperSpider(CrawlSpider):
             writer = csv.writer(csv_file)
             for key, value in self.keywords.items():
                 writer.writerow([key, value])
+
+    def check_in_db(self, url):
+        print("checking in database...")
+        # with open("scraped_urls.json", "r") as json_file:
+        #     data = json.load(json_file)
+        #     return url in data["url"]
+        self.cur.execute("select * from urls where url='{}'".format(url))
+        output = self.cur.fetchall()
+        print("Checking if already in database- output from DB is {}".format(output))
+        return output != []
+        
+
+    def add_to_db(self, url):
+        print("adding to db...")
+        # with open("scraped_urls.json", "w") as json_file:
+        #     data = json.load(json_file)
+        #     return url in data["url"]
+        print("Adding new url to database of {}".format(url))
+        self.cur.execute("insert into urls values ('{}', '{}')".format(self.name, url))
+        self.connection.commit()
+
+    def create_connection(self, db_file):
+        """ create a database connection to a SQLite database """
+        conn = None
+        try:
+            conn = sqlite3.connect(db_file)
+            print(sqlite3.version)
+            return conn
+        except Error as e:
+            print("Could not connect, resting, error will pop up in ~5 seconds")
+            time.sleep(4)
+            print(e)
