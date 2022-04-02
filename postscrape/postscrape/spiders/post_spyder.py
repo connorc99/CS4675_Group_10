@@ -12,7 +12,7 @@ import time
 
 import sqlite3
 from sqlite3 import Error
- 
+
 class SuperSpider(CrawlSpider):
     name = 'extractor'
     allowed_domains = ['www.cc.gatech.edu']
@@ -46,7 +46,12 @@ class SuperSpider(CrawlSpider):
         '''
         self.connection = self.create_connection("db/urldatabase.db")
         self.cur = self.connection.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS urls (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, url VARCHAR(255) NOT NULL, `creation_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+
+        self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ({}, {}, {})".format(self.name, self.max_depth, self.filter_depth));
+
+        self.scraper_id = self.cur.lastrowid;
 
     def parse_item(self, response):
         self.log("scraper {}".format(self.name))
@@ -66,7 +71,7 @@ class SuperSpider(CrawlSpider):
             return
         if self.pages_crawled % 100 == 0:
             stats = self.crawler.stats.get_stats()
-            with open('test_stats_{}.csv'.format(self.pages_crawled), 'w') as csv_file:  
+            with open('test_stats_{}.csv'.format(self.pages_crawled), 'w') as csv_file:
                 writer = csv.writer(csv_file)
                 for key, value in stats.items():
                     writer.writerow([key, value])
@@ -75,18 +80,18 @@ class SuperSpider(CrawlSpider):
                     print([key, len(value)])
                 writer.writerow(["current_time", datetime.datetime.now()])
 
-            with open('keyword_current_output.csv', 'w') as csv_file:  
+            with open('keyword_current_output.csv', 'w') as csv_file:
                 writer = csv.writer(csv_file)
                 for key, value in self.keywords.items():
                     writer.writerow([key, value])
-    
+
         self.pages_crawled += 1
         for keyword in self.keywords:
             if keyword in response.text.lower():
                 self.keywords[keyword].append(response.url)
             else:
                 pass
-        
+
         #add to persistent memory storage
         self.add_to_db(response.url)
 
@@ -97,13 +102,13 @@ class SuperSpider(CrawlSpider):
         stats = self.crawler.stats.get_stats()
 
         print(stats)
-        with open('stats_final_output.csv', 'w') as csv_file:  
+        with open('stats_final_output.csv', 'w') as csv_file:
             writer = csv.writer(csv_file)
             for key, value in stats.items():
                 writer.writerow([key, value])
 
 
-        with open('keyword_final_output.csv', 'w') as csv_file:  
+        with open('keyword_final_output.csv', 'w') as csv_file:
             writer = csv.writer(csv_file)
             for key, value in self.keywords.items():
                 writer.writerow([key, value])
@@ -113,11 +118,11 @@ class SuperSpider(CrawlSpider):
         # with open("scraped_urls.json", "r") as json_file:
         #     data = json.load(json_file)
         #     return url in data["url"]
-        self.cur.execute("select * from urls where url='{}'".format(url))
+        self.cur.execute("select * from url where url='{}'".format(url))
         output = self.cur.fetchall()
         print("Checking if already in database- output from DB is {}".format(output))
         return output != []
-        
+
 
     def add_to_db(self, url):
         print("adding to db...")
@@ -125,7 +130,7 @@ class SuperSpider(CrawlSpider):
         #     data = json.load(json_file)
         #     return url in data["url"]
         print("Adding new url to database of {}".format(url))
-        self.cur.execute("insert into urls values ('{}', '{}')".format(self.name, url))
+        self.cur.execute("insert into url (scraper_id, url) values ('{}', '{}')".format(self.scraper_id, url))
         self.connection.commit()
 
     def create_connection(self, db_file):
