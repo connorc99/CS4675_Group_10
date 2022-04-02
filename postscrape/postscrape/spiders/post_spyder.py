@@ -46,7 +46,7 @@ class SuperSpider(CrawlSpider):
         '''
         self.connection = self.create_connection("db/urldatabase.db")
         self.cur = self.connection.cursor()
-        #self.cur.execute("create table urls (scraper_id, url)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS urls (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, url VARCHAR(255) NOT NULL, `creation_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
 
     def parse_item(self, response):
         self.log("scraper {}".format(self.name))
