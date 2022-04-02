@@ -44,14 +44,20 @@ class SuperSpider(CrawlSpider):
             "DEPTH_LIMIT": max_depth #not currently working :(
         }
         '''
-        self.connection = self.create_connection("db/urldatabase.db")
-        self.cur = self.connection.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
-        self.cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        self.connection = self.create_connection(".\\db\\urldatabase.db")
+        try:
+            self.cur = self.connection.cursor()
+            self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+            self.cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
 
-        self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ({}, {}, {})".format(self.name, self.max_depth, self.filter_depth));
+            self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ('{}', {}, {})".format(self.name, self.max_depth, self.filter_depth));
 
-        self.scraper_id = self.cur.lastrowid;
+            self.scraper_id = self.cur.lastrowid;
+            self.connection.commit()
+            print(self.scraper_id);
+        except Error as e:
+            print(e)
+            time.sleep(4)
 
     def parse_item(self, response):
         self.log("scraper {}".format(self.name))
@@ -142,5 +148,5 @@ class SuperSpider(CrawlSpider):
             return conn
         except Error as e:
             print("Could not connect, resting, error will pop up in ~5 seconds")
-            time.sleep(4)
             print(e)
+            time.sleep(4)
