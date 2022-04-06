@@ -1,0 +1,33 @@
+log_count/INFO,18
+start_time,2022-04-06 20:51:51.912516
+scheduler/enqueued/memory,324
+scheduler/enqueued,324
+scheduler/dequeued/memory,54
+scheduler/dequeued,54
+downloader/request_count,56
+downloader/request_method_count/GET,56
+downloader/request_bytes,15845
+robotstxt/request_count,2
+log_count/DEBUG,549
+downloader/response_count,40
+downloader/response_status_count/200,35
+downloader/response_bytes,2058021
+response_received_count,38
+robotstxt/response_count,2
+robotstxt/response_status_count/200,1
+request_depth_max,3
+dupefilter/filtered,1446
+offsite/domains,113
+offsite/filtered,1759
+log_count/ERROR,2
+spider_exceptions/IndexError,1
+downloader/response_status_count/302,2
+downloader/response_status_count/404,3
+robotstxt/response_status_count/404,1
+httpcompression/response_bytes,13497
+httpcompression/response_count,1
+computing,3
+undergraduate,3
+research,3
+online,3
+current_time,2022-04-06 16:52:02.006982
