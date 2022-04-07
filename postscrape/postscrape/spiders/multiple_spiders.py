@@ -1,24 +1,11 @@
 '''
-from twisted.internet import reactor, defer
-from scrapy.crawler import CrawlerRunner
-from scrapy.utils.log import configure_logging
-from post_spyder import SuperSpider 
-
-
-configure_logging()
-runner = CrawlerRunner()
-
-@defer.inlineCallbacks
-def crawl():
-    yield runner.crawl(SuperSpider, allowed_suffix= ["a", "b", "c"], name="first", max_depth = 2)
-    yield runner.crawl(SuperSpider, allowed_suffix = ["d", "e", "f"], name="second")
-    reactor.stop()
-
-
-
-crawl()
-reactor.run() # the script will block here until the last crawl call is finished
+Between runs for analysis:
+- Change filter_depth and max_depth both here AND in post_spyder, custom_settings causes problems if I pass it in for some reason
 '''
+
+subprocesses = 2
+filter_depth = 3
+max_depth = 5
 
 import scrapy
 from twisted.internet import reactor
@@ -26,31 +13,38 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from post_spyder import SuperSpider 
-
 import sqlite3
 from sqlite3 import Error
-
 import time
 
-configure_logging();
+iteration = 0
+print("\n\n---------------------\nRUNNING MAIN FILE: {}\n\n\n------------------------------".format(iteration))
+iteration += 1
+time.sleep(3)
+
+configure_logging()
 settings = get_project_settings()
 runner = CrawlerRunner(settings)
 
-subprocesses = 2
-filter_depth = 3
-max_depth = 5
 
 table_name = "subprocesses_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, filter_depth, max_depth) 
 conn = sqlite3.connect(".\\db\\urldatabase.db")
 print(sqlite3.version)
 cur = conn.cursor()
+
+#Clear out table of URLs for new scrapers to write to
+try:
+    cur.execute("delete from url")
+except:
+    pass
+
+#Create fresh table to track stats with
 cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
 cur.execute('''
     CREATE TABLE {} (
     insertion_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     scraper_name VARCHAR(100),
     start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    amount_scraped_rough INT,
     enqueued INT,
     dequeued INT,
     request_count INT,
@@ -72,15 +66,24 @@ cur.execute('''
 conn.commit()
 conn.close()
 
-
+print("Created table, about to start...")
 time.sleep(3)
 
-#scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-# name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
-runner.crawl(SuperSpider, allowed_suffix= ["a", "b", "c"], name="scraper_1", table_name = table_name)
-runner.crawl(SuperSpider, allowed_suffix = ["d", "e", "f"], name="scraper_2",  table_name = table_name)
-#ideally work on persistance of scraped files
+import string
+alphabet_list = list(string.ascii_lowercase)
+
+if subprocesses == 1:
+    runner.crawl(SuperSpider, allowed_suffix= alphabet_list, name="scraper_1", table_name = table_name)
+elif subprocesses == 2:
+    runner.crawl(SuperSpider, allowed_suffix= alphabet_list[:13], name="scraper_1", table_name = table_name)
+    runner.crawl(SuperSpider, allowed_suffix = alphabet_list[13:], name="scraper_2",  table_name = table_name)
+elif subprocesses == 4:
+    runner.crawl(SuperSpider, allowed_suffix= alphabet_list[:6], name="scraper_1", table_name = table_name)
+    runner.crawl(SuperSpider, allowed_suffix = alphabet_list[6:13], name="scraper_2",  table_name = table_name)
+    runner.crawl(SuperSpider, allowed_suffix = alphabet_list[13:19], name="scraper_3",  table_name = table_name)
+    runner.crawl(SuperSpider, allowed_suffix = alphabet_list[19:], name="scraper_4",  table_name = table_name)
+
 
 d = runner.join()
 d.addBoth(lambda _: reactor.stop())

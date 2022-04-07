@@ -1,46 +1,25 @@
+filter_depth = 1
+max_depth = 2
+
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import *
 from scrapy.item import Item, Field
-
 from scrapy import signals
 from pydispatch import dispatcher
-
 import datetime
 import csv
 import time
-
 import sqlite3
 from sqlite3 import Error
 
-'''
-Change these between runs
-filter_depth: when to start checking URLs that have been added for appropriate suffix, we MANUALLY check this w/ suffix list
-max_depth: the deepest inside a suffix the scraper can go, scrapy checks this for us AUTOMATICALLY
-
-Issue: we DO want to scrape an already scraped page if we are on or past filter_depth, but just add the new links
-    -Alternative is we DONT scrape the page
-
-2 Implementations:
-    1. We scrape already scraped pages in each scraper, and only check to see if that specific scraper has scraped that URL yet
-    2. We don't scrape pages already scraped, which will be quicker and discover less pages
-
-We can talk about the tradeoffs in the writeup of each
-
-This file will be doing option 2- we will NOT scrape a page if another scraper has already scraped it
-
-I think this still parses every page, but only scrapes keywords from ones between filter and max depth. 
-We can discuss a limitation in knowing how to implement not having the follow=True workaround
-'''
-filter_depth = 10
-max_depth = filter_depth + 5
 
 class SuperSpider(CrawlSpider):
     name = 'extractor'
     allowed_domains = ['www.cc.gatech.edu']
     start_urls = ['https://www.cc.gatech.edu']
     base_url = 'https://www.cc.gatech.edu'
-    rules = [Rule(LinkExtractor(), callback='parse_item', follow=True)]
+    #rules = [Rule(LinkExtractor(), callback='parse_item', follow=True)]
     keywords = {
         "computing" : [],
         "undergraduate": [],
@@ -53,8 +32,8 @@ class SuperSpider(CrawlSpider):
     pages_crawled = 0
 
     '''
-    name: name of the scraper for table
-    allowed_suffix: list of letters we will allow as the suffix
+    @name: name of the scraper for table
+    @allowed_suffix: list of letters we will allow as the suffix
     '''
     def __init__(self, name = "default", allowed_suffix = None, table_name = None):
         super(SuperSpider, self).__init__()
@@ -64,63 +43,62 @@ class SuperSpider(CrawlSpider):
         self.max_depth = max_depth
         self.filter_depth = filter_depth
         self.connection = self.create_connection(".\\db\\urldatabase.db")
-        self.duplicates_from_other_scraper = 0
+        self.duplicates_from_other_scraper = 0 #a value we set ourselves for the stats output, where we query the DB and the URL was already in it. Scrapy filters them out for us if the same scraper was the one who discovered the page
         self.last_dequeue_value = -9999
         self.cur = self.connection.cursor()
-        try:
-            '''
-            self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
-            self.cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        self.link_extractor = LinkExtractor()
 
-            self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ('{}', {}, {})".format(self.name, self.max_depth, self.filter_depth));
-            '''
-            self.scraper_id = self.cur.lastrowid
-            self.connection.commit()
-            print(self.scraper_id)
-            
-        except Error as e:
-            print(e)
-            time.sleep(4)
 
-    def parse_item(self, response):
+    def start_requests(self):
+        yield scrapy.Request('https://www.cc.gatech.edu', self.parse)
+
+    def parse(self, response):
         self.log("scraper {}".format(self.name))
         self.log('crawling {}'.format(response.url))
         self.log('current depth: {}'.format(response.meta['depth']))
 
-        #check and see if already in database, if so do not parse the item
-        if self.check_in_db(response.url):
+        already_in_db = self.check_in_db(response.url)
+        suffix = self.get_suffix
+
+        #First, make sure we want to extract links from this link, so in range [0, 5] or matching suffix
+        if already_in_db:
             self.duplicates_from_other_scraper += 1
-            return
+            #If we are deeper than the 
+            if response.meta['depth'] < filter_depth or suffix in self.suffix_list:
+                pass
+            else:
+                return
 
-        #get the letter for suffix
-        suffix = response.url.split("edu")[1][0]
-
-        if (response.meta['depth'] > self.filter_depth) and (suffix not in self.suffix_list): #once past certain level, must meet prefix
-            self.log('filtered out suffix past depth')
-            return
-        
-
-        #adds persistent stats- should probably convert this to SQL
-        print("stats check!!")
-        print(self.crawler.stats.get_stats())
+        #Periodically add stats to DB
         if self.crawler.stats.get_stats()["scheduler/dequeued"] - self.last_dequeue_value > 500:
             self.last_dequeue_value = self.crawler.stats.get_stats()["scheduler/dequeued"] 
             self.write_stats()
 
+        #Only add keyword info if this is a new page- else, just extract links!
+        if not already_in_db:
+            for keyword in self.keywords:
+                if keyword in response.text.lower():
+                    self.keywords[keyword].append(response.url)
+                else:
+                    pass
+            self.add_to_db(response.url)
 
-
-        for keyword in self.keywords:
-            if keyword in response.text.lower():
-                self.keywords[keyword].append(response.url)
+        #This part adds any new links we want to consider
+        for link in self.link_extractor.extract_links(response):
+            suffix = self.get_suffix(link)
+            if (response.meta['depth'] > self.filter_depth) and (suffix not in self.suffix_list):
+                print("Filtered out non matching suffix!")
             else:
-                pass
-
-        #add to persistent memory storage
-        self.add_to_db(response.url)
+                #print("Adding in link {}".format(link))
+                yield scrapy.Request(link.url, callback=self.parse)
 
 
-
-        #print(self.crawler.stats.get_stats())
+    
+    def get_suffix(self, link):
+        try:
+            suffix = link.split("edu")[1][0]
+        except:
+            suffix = ""
 
     '''
     def write_stats_old(self):
@@ -151,17 +129,19 @@ class SuperSpider(CrawlSpider):
     '''
 
     def write_stats(self):
-        '''
-        - Create the table for this configuration if one does not exist
-        - Drop all old records from the table
-        - So just drop and then create I guess
-
-        - Insert into the table the current scraper name, start time, currently enqueued, currently dequeued, request count, response count, 
-        duplicates in this scraper filtered, DUPES OVERALL FILTERED- NEED TO TRACK, offsite requests filtered, current keyword stats and current time
-
-        '''
+        print("Writing stats...")
         try:
             stats = self.crawler.stats.get_stats()
+            print(stats)
+            #These are problematic on first run, so just manually set these
+            try:
+                duplicates_start = stats["dupefilter/filtered"]
+                offsite_start = stats["offsite/filtered"]
+                dups_from_others = self.duplicates_from_other_scraper #note- this is not currently working/ telling us anything
+            except:
+                duplicates_start = 0
+                offsite_start = 0
+                dups_from_others = 0
             print(stats)
             insert_query = f'''
             INSERT INTO {self.table_name} 
@@ -187,9 +167,9 @@ class SuperSpider(CrawlSpider):
                 {stats["scheduler/dequeued"]},
                 {stats["downloader/request_count"]},
                 {stats["downloader/response_count"]},
-                {stats["dupefilter/filtered"]},
-                {self.duplicates_from_other_scraper},
-                {stats["offsite/filtered"]},
+                {duplicates_start},
+                {dups_from_others},
+                {offsite_start},
                 {len(self.keywords["computing"])},
                 {len(self.keywords["undergraduate"])},
                 {len(self.keywords["research"])},
@@ -205,7 +185,8 @@ class SuperSpider(CrawlSpider):
             print("ERROR INSERTING: {}".format(e))
             print("Sleeping for 3...")
         finally:
-            time.sleep(3)
+            #time.sleep(3)
+            print("Done with insertion function...\n\n")
 
 
     def close(self, spider):
@@ -247,7 +228,7 @@ class SuperSpider(CrawlSpider):
         #     data = json.load(json_file)
         #     return url in data["url"]
         print("Adding new url to database of {}".format(url))
-        self.cur.execute("insert into url (scraper_id, url) values ('{}', '{}')".format(self.scraper_id, url))
+        self.cur.execute("insert into url (scraper_id, url) values ('{}', '{}')".format(self.name, url))
         self.connection.commit()
 
     def create_connection(self, db_file):
