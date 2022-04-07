@@ -4,6 +4,7 @@ Between runs for analysis:
 '''
 
 subprocesses = 2
+initial_depth = 2
 filter_depth = 3
 max_depth = 5
 
@@ -20,14 +21,14 @@ import time
 iteration = 0
 print("\n\n---------------------\nRUNNING MAIN FILE: {}\n\n\n------------------------------".format(iteration))
 iteration += 1
-time.sleep(3)
+#time.sleep(3)
 
 configure_logging()
 settings = get_project_settings()
-runner = CrawlerRunner(settings)
+runner = CrawlerRunner()
 
 
-table_name = "subprocesses_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, filter_depth, max_depth) 
+table_name = "subprocesses_{}_initialdepth_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth) 
 conn = sqlite3.connect(".\\db\\urldatabase.db")
 print(sqlite3.version)
 cur = conn.cursor()
@@ -58,11 +59,12 @@ cur.execute('''
     online_count INT,
     current_time TIMESTAMP, 
     subprocesses INT DEFAULT {},
+    initial_depth INT DEFAULT {},
     filter_depth INT DEFAULT {},
     max_depth INT DEFAULT {}
     )
     
-    '''.format(table_name, subprocesses, filter_depth, max_depth))
+    '''.format(table_name, subprocesses, initial_depth, filter_depth, max_depth))
 conn.commit()
 conn.close()
 

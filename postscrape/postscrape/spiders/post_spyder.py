@@ -1,5 +1,13 @@
-filter_depth = 1
-max_depth = 2
+
+initial_depth = 2
+filter_depth = 3
+max_depth = 5
+'''
+- Adds all links in depth to initial depth
+- Only adds links past inital depth if link is not in database
+- Only adds links past filter depth if above is true and suffix condition is met
+
+'''
 
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
@@ -42,6 +50,7 @@ class SuperSpider(CrawlSpider):
         self.suffix_list = allowed_suffix
         self.max_depth = max_depth
         self.filter_depth = filter_depth
+        self.initial_depth = initial_depth
         self.connection = self.create_connection(".\\db\\urldatabase.db")
         self.duplicates_from_other_scraper = 0 #a value we set ourselves for the stats output, where we query the DB and the URL was already in it. Scrapy filters them out for us if the same scraper was the one who discovered the page
         self.last_dequeue_value = -9999
@@ -60,11 +69,12 @@ class SuperSpider(CrawlSpider):
         already_in_db = self.check_in_db(response.url)
         suffix = self.get_suffix
 
-        #First, make sure we want to extract links from this link, so in range [0, 5] or matching suffix
+        #If we already have the link in DB, only consider it if its in the inital sweep
         if already_in_db:
             self.duplicates_from_other_scraper += 1
             #If we are deeper than the 
-            if response.meta['depth'] < filter_depth or suffix in self.suffix_list:
+            #if response.meta['depth'] < filter_depth or suffix in self.suffix_list:
+            if response.meta['depth'] <= self.initial_depth:
                 pass
             else:
                 return
