@@ -1,6 +1,14 @@
 '''
 Between runs for analysis:
 - Change filter_depth and max_depth both here AND in post_spyder, custom_settings causes problems if I pass it in for some reason
+
+1/2/4
+
+1/2
+3/5
+5/10
+
+
 '''
 
 subprocesses = 2
@@ -28,16 +36,30 @@ settings = get_project_settings()
 runner = CrawlerRunner()
 
 
-table_name = "subprocesses_{}_initialdepth_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth) 
+table_name = "subprocesses_{}_initialdepth_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth) 
 conn = sqlite3.connect(".\\db\\urldatabase.db")
 print(sqlite3.version)
 cur = conn.cursor()
+
+
+try:
+    #self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+    cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+    #self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ('{}', {}, {})".format(self.name, self.max_depth, self.filter_depth));
+    conn.commit()
+except Error as e:
+    print(e)
+    time.sleep(4)
+
 
 #Clear out table of URLs for new scrapers to write to
 try:
     cur.execute("delete from url")
 except:
     pass
+
+
+
 
 #Create fresh table to track stats with
 cur.execute("DROP TABLE IF EXISTS {}".format(table_name))

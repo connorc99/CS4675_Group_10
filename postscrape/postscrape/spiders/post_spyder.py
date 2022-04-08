@@ -1,7 +1,8 @@
 
 initial_depth = 2
-filter_depth = 3
-max_depth = 5
+filter_depth = 5
+max_depth = 10
+
 '''
 - Adds all links in depth to initial depth
 - Only adds links past inital depth if link is not in database
@@ -55,6 +56,7 @@ class SuperSpider(CrawlSpider):
         self.duplicates_from_other_scraper = 0 #a value we set ourselves for the stats output, where we query the DB and the URL was already in it. Scrapy filters them out for us if the same scraper was the one who discovered the page
         self.last_dequeue_value = -9999
         self.cur = self.connection.cursor()
+
         self.link_extractor = LinkExtractor()
 
 
