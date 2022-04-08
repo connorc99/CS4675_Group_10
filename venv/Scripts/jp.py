@@ -1,4 +1,4 @@
-#!c:\users\connor\desktop\spring_2022\cs4675\prj_1\other_proj\venv\scripts\python.exe
+#!c:\users\ed209\school\cs4675_group_10\venv\scripts\python.exe
 
 import sys
 import json

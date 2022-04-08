@@ -66,6 +66,7 @@ Notes/ to fix:
  - Currently filters out ANY duplicates - we want it to add URLs to queue to scrape even if it is in the database up until a certain level of depth is reached
  - No longer need CSV files
  - Add timestamps to SQL entries
+ - Add background script for all the runs
 
 
 
