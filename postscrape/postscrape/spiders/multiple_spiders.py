@@ -2,12 +2,11 @@
 Between runs for analysis:
 - Change filter_depth and max_depth both here AND in post_spyder, custom_settings causes problems if I pass it in for some reason
 
-1/2/4
+Subprocesses: 1/2/4
 
-1/2
-3/5
-5/10
-
+Initial depth:  2/3
+Filter depth:   5/8
+Max depth:     10/15
 
 '''
 
