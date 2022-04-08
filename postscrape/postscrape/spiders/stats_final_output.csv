@@ -1,0 +1,30 @@
+log_count/INFO,249
+start_time,2022-04-07 01:03:37.400431
+scheduler/enqueued/memory,2136
+scheduler/enqueued,2136
+scheduler/dequeued/memory,2136
+scheduler/dequeued,2136
+downloader/request_count,2136
+downloader/request_method_count/GET,2136
+downloader/request_bytes,642904
+downloader/response_count,2136
+downloader/response_status_count/200,1963
+downloader/response_bytes,117554266
+log_count/DEBUG,16465
+response_received_count,2079
+request_depth_max,4
+dupefilter/filtered,55266
+offsite/domains,377
+offsite/filtered,49138
+downloader/response_status_count/404,80
+downloader/response_status_count/302,18
+httperror/response_ignored_count,119
+httperror/response_ignored_status_count/404,80
+httpcompression/response_bytes,70903
+httpcompression/response_count,5
+downloader/response_status_count/301,36
+downloader/response_status_count/403,39
+httperror/response_ignored_status_count/403,39
+elapsed_time_seconds,163.373275
+finish_time,2022-04-07 01:06:20.773706
+finish_reason,finished
