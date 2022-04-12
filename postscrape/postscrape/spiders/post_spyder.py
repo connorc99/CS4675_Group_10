@@ -1,8 +1,3 @@
-
-initial_depth = 2
-filter_depth = 5
-max_depth = 10
-
 '''
 - Adds all links in depth to initial depth
 - Only adds links past inital depth if link is not in database
@@ -21,6 +16,7 @@ import csv
 import time
 import sqlite3
 from sqlite3 import Error
+from config import initial_depth, filter_depth, max_depth
 
 
 class SuperSpider(CrawlSpider):
@@ -52,7 +48,7 @@ class SuperSpider(CrawlSpider):
         self.max_depth = max_depth
         self.filter_depth = filter_depth
         self.initial_depth = initial_depth
-        self.connection = self.create_connection(".\\db\\urldatabase.db")
+        self.connection = self.create_connection("db/urldatabase.db")
         self.duplicates_from_other_scraper = 0 #a value we set ourselves for the stats output, where we query the DB and the URL was already in it. Scrapy filters them out for us if the same scraper was the one who discovered the page
         self.last_dequeue_value = -9999
         self.cur = self.connection.cursor()

@@ -10,17 +10,15 @@ Max depth:     10/15
 
 '''
 
-subprocesses = 2
-initial_depth = 2
-filter_depth = 3
-max_depth = 5
+
 
 import scrapy
 from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
-from post_spyder import SuperSpider 
+from post_spyder import SuperSpider
+from config import subprocesses, initial_depth, filter_depth, max_depth
 import sqlite3
 from sqlite3 import Error
 import time
@@ -36,7 +34,7 @@ runner = CrawlerRunner()
 
 
 table_name = "subprocesses_{}_initialdepth_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth) 
-conn = sqlite3.connect(".\\db\\urldatabase.db")
+conn = sqlite3.connect("db/urldatabase.db")
 print(sqlite3.version)
 cur = conn.cursor()
 
