@@ -1,51 +1,33 @@
-<<<<<<< HEAD
-log_count/INFO,19
-start_time,2022-04-08 14:20:02.144015
-scheduler/enqueued/memory,1
-scheduler/enqueued,1
-scheduler/dequeued/memory,1
-scheduler/dequeued,1
-downloader/request_count,1
-downloader/request_method_count/GET,1
-downloader/request_bytes,221
-downloader/response_count,1
-downloader/response_status_count/200,1
-downloader/response_bytes,59482
-log_count/DEBUG,9
-response_received_count,1
-log_count/ERROR,2
-spider_exceptions/OperationalError,1
-elapsed_time_seconds,6.385943
-finish_time,2022-04-08 14:20:08.529958
-=======
-log_count/INFO,166
-start_time,2022-04-08 13:45:13.944572
-scheduler/enqueued/memory,1979
-scheduler/enqueued,1979
-scheduler/dequeued/memory,1979
-scheduler/dequeued,1979
-downloader/request_count,1979
-downloader/request_method_count/GET,1979
-downloader/request_bytes,599516
-downloader/response_count,1979
-downloader/response_status_count/200,1859
-downloader/response_bytes,108243589
-log_count/DEBUG,16023
-response_received_count,1896
-request_depth_max,4
-dupefilter/filtered,44526
-offsite/domains,319
-offsite/filtered,41384
-downloader/response_status_count/302,29
-httpcompression/response_bytes,52604
-httpcompression/response_count,3
-downloader/response_status_count/404,35
-httperror/response_ignored_count,40
-httperror/response_ignored_status_count/404,35
-downloader/response_status_count/301,51
-downloader/response_status_count/403,5
-httperror/response_ignored_status_count/403,5
-elapsed_time_seconds,682.077751
-finish_time,2022-04-08 13:56:36.022323
->>>>>>> fa41262526ef13bbd010cd18559a3675c7c6d0f2
+log_count/INFO,1394
+start_time,2022-04-13 15:14:02.896773
+scheduler/enqueued/memory,2945
+scheduler/enqueued,2945
+scheduler/dequeued/memory,2945
+scheduler/dequeued,2945
+downloader/request_count,2945
+downloader/request_method_count/GET,2945
+downloader/request_bytes,896589
+log_count/DEBUG,52365
+downloader/response_count,2945
+downloader/response_status_count/200,2557
+downloader/response_bytes,166980516
+response_received_count,2674
+request_depth_max,9
+dupefilter/filtered,89097
+offsite/domains,711
+offsite/filtered,80019
+downloader/response_status_count/302,109
+httpcompression/response_bytes,181977
+httpcompression/response_count,11
+downloader/response_status_count/404,86
+httperror/response_ignored_count,129
+httperror/response_ignored_status_count/404,86
+downloader/response_status_count/301,150
+log_count/WARNING,7
+log_count/ERROR,106
+spider_exceptions/AttributeError,33
+downloader/response_status_count/403,43
+httperror/response_ignored_status_count/403,43
+elapsed_time_seconds,407.175924
+finish_time,2022-04-13 15:20:50.072697
 finish_reason,finished
