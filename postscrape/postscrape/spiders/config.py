@@ -1,4 +1,4 @@
 subprocesses = 2
-initial_depth = 2
-filter_depth = 3
-max_depth = 5
+initial_depth = 3
+filter_depth = 8
+max_depth = 15
