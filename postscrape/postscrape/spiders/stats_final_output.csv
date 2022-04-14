@@ -1,33 +1,23 @@
-log_count/INFO,1394
-start_time,2022-04-13 15:14:02.896773
-scheduler/enqueued/memory,2945
-scheduler/enqueued,2945
-scheduler/dequeued/memory,2945
-scheduler/dequeued,2945
-downloader/request_count,2945
-downloader/request_method_count/GET,2945
-downloader/request_bytes,896589
-log_count/DEBUG,52365
-downloader/response_count,2945
-downloader/response_status_count/200,2557
-downloader/response_bytes,166980516
-response_received_count,2674
-request_depth_max,9
-dupefilter/filtered,89097
-offsite/domains,711
-offsite/filtered,80019
-downloader/response_status_count/302,109
-httpcompression/response_bytes,181977
-httpcompression/response_count,11
-downloader/response_status_count/404,86
-httperror/response_ignored_count,129
-httperror/response_ignored_status_count/404,86
-downloader/response_status_count/301,150
-log_count/WARNING,7
-log_count/ERROR,106
-spider_exceptions/AttributeError,33
-downloader/response_status_count/403,43
-httperror/response_ignored_status_count/403,43
-elapsed_time_seconds,407.175924
-finish_time,2022-04-13 15:20:50.072697
+log_count/INFO,32
+start_time,2022-04-14 21:42:00.085060
+scheduler/enqueued/memory,3
+scheduler/enqueued,3
+scheduler/dequeued/memory,3
+scheduler/dequeued,3
+downloader/request_count,3
+downloader/request_method_count/GET,3
+downloader/request_bytes,651
+downloader/response_count,3
+downloader/response_status_count/503,3
+downloader/response_bytes,33408
+log_count/DEBUG,16
+retry/count,2
+retry/reason_count/503 Service Unavailable,2
+log_count/ERROR,4
+retry/max_reached,1
+response_received_count,1
+httperror/response_ignored_count,1
+httperror/response_ignored_status_count/503,1
+elapsed_time_seconds,2.39924
+finish_time,2022-04-14 21:42:02.484300
 finish_reason,finished
