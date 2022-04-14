@@ -1,7 +1,7 @@
 
-initial_depth = 3
-filter_depth = 8
-max_depth = 15
+initial_depth = 10
+filter_depth = 25
+max_depth = 45
 
 '''
 - Adds all links in depth to initial depth

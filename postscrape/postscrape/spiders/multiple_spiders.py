@@ -10,10 +10,10 @@ Max depth:     10/15
 
 '''
 
-subprocesses = 1
-initial_depth = 3
-filter_depth = 8
-max_depth = 15
+subprocesses = 2
+initial_depth = 10
+filter_depth = 25
+max_depth = 45
 
 import scrapy
 from twisted.internet import reactor
