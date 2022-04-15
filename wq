@@ -1,0 +1,171 @@
+[33mcommit 6b6e4ffcd9c88f6f4c52225c7f489dd5701ef829[m[33m ([m[1;36mHEAD -> [m[1;32mgitignore[m[33m)[m
+Merge: 61680d1 2cc2c09
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Apr 11 16:44:01 2022 -0400
+
+    Merge branch 'gitignore' of https://github.com/connorc99/CS4675_Group_10 into gitignore
+
+[33mcommit 2cc2c099724d61d227167923d983fccb4eff25cf[m[33m ([m[1;31morigin/gitignore[m[33m)[m
+Author: Connor Cole <58453120+connorc99@users.noreply.github.com>
+Date:   Mon Apr 11 16:43:47 2022 -0400
+
+    removing bad file path
+
+[33mcommit 61680d1e7abf886ef6eb4d296d8e9bb24752080d[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Apr 11 16:32:27 2022 -0400
+
+    pushing current changes
+
+[33mcommit 428de0c7b312f29263a89294817a93e2d29d8672[m
+Author: Cy Heffley <cyheffley@lawn-128-61-78-229.lawn.gatech.edu>
+Date:   Mon Apr 11 16:16:41 2022 -0400
+
+    run multiple spiders 5x
+
+[33mcommit 1d45a8249f0871328309d95830ac5cdcde0f7259[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Fri Apr 8 10:38:22 2022 -0400
+
+    added comment w work division
+
+[33mcommit 0106e80734831ef0862790af029d140b8963df5b[m
+Merge: 9c65fcd fa41262
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Fri Apr 8 10:33:09 2022 -0400
+
+    fixed bugs
+
+[33mcommit 9c65fcd4b9228b5b773d8dac4be79154e4c8c323[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Fri Apr 8 10:29:39 2022 -0400
+
+    fixed small bugs
+
+[33mcommit fa41262526ef13bbd010cd18559a3675c7c6d0f2[m
+Author: ed209uardo <eduardo.rodriguez@gatech.edu>
+Date:   Fri Apr 8 10:00:25 2022 -0400
+
+    test run by ed
+
+[33mcommit 077b7ea567c3937430a5872fc9adab081ac48320[m
+Author: ed209uardo <eduardo.rodriguez@gatech.edu>
+Date:   Fri Apr 8 09:30:09 2022 -0400
+
+    added .gitignore
+
+[33mcommit 032a24c42dc514bed48ad37141eb202a02f8211f[m
+Author: ed209uardo <eduardo.rodriguez@gatech.edu>
+Date:   Fri Apr 8 09:27:45 2022 -0400
+
+    removed venv folder
+
+[33mcommit 7158379994d1b12fe261d6c0ce8dd3f8f34c5d72[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Wed Apr 6 21:07:56 2022 -0400
+
+    Working! Added in initial depth param for adding in links regardless of already scraped status
+
+[33mcommit abf40e8ff3348ebce8472a1bf5edf5e4994ae631[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Wed Apr 6 20:38:42 2022 -0400
+
+    works except main file runs twice for some reason
+
+[33mcommit f72fb928b546d8b0a8e1aa794b943a4a1daf7dd7[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Wed Apr 6 18:51:54 2022 -0400
+
+    Cleaned up file structure
+
+[33mcommit b2991f506134a0f594d3aa126bb721deaadaa883[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Wed Apr 6 18:50:58 2022 -0400
+
+    Output for stats is robust in sqlite for analysis. Will try to tweak scraping settings, then will be good for analysis
+
+[33mcommit 8b78bfef7f903238f6a3fb7340790562ac8e25c8[m
+Author: Zach McGee <zach@upperlevelcrm.com>
+Date:   Sat Apr 2 18:38:04 2022 -0400
+
+    fix up some errors with post_spyder
+
+[33mcommit 308e7037634b6b1958a2744810a4f946e6544496[m
+Author: Zach McGee <zach@upperlevelcrm.com>
+Date:   Sat Apr 2 18:00:32 2022 -0400
+
+    add extra database fields to support future analysis
+
+[33mcommit a98bcdb96f6f0f0781a3f79fcc191f0e4d05a79e[m
+Author: Zach McGee <zach@upperlevelcrm.com>
+Date:   Sat Apr 2 17:50:54 2022 -0400
+
+    add creation date support
+
+[33mcommit 527ff6824f96c0a69c7ba21e89090834372b2abc[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Fri Apr 1 13:24:51 2022 -0400
+
+    updated readme
+
+[33mcommit 641682edfffb6f549dbddd641ef622d099ca33a1[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Fri Apr 1 13:15:51 2022 -0400
+
+    up to date working version
+
+[33mcommit af38fad0fe2cd4c131e966fb717e2d4011b096c1[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Thu Mar 31 15:14:37 2022 -0400
+
+    Added persistent memory storage via SQLLite, as well as checks to see if URL has been scraped by other spiders
+
+[33mcommit 24b5acc8f320161083fcda3c83ccc3f7852aacd1[m
+Author: Zach McGee <zach@upperlevelcrm.com>
+Date:   Sat Mar 26 20:13:13 2022 -0400
+
+    update multiple_spiders script to use CrawlerRunner
+
+[33mcommit 9df66cd1e0dd6c9b7da1f4fb138524259277011f[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Mar 14 18:48:29 2022 -0400
+
+    updated readme
+
+[33mcommit 6f6bb506f4510f5ae422c85933674f1f38ebcaf4[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Mar 14 18:48:08 2022 -0400
+
+    updated readme
+
+[33mcommit f8c01b4e6a85c7d1ac4617f6f88134bd32cf95bf[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Mar 14 18:32:51 2022 -0400
+
+    concurrent processes run, url scraping repeated currently
+
+[33mcommit 6c6f6e085d15cdedf1a5b68cbb99722f3bcabedb[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Mar 14 17:39:47 2022 -0400
+
+    Revert "added pdf of writeup to help w image issues"
+    
+    This reverts commit 6739d46bb3bbf88d8e50ba7548df2681ab9f9f1f.
+
+[33mcommit 4470834ee1c3d2b636d44c087669ee8d75425551[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Mon Mar 14 17:22:03 2022 -0400
+
+    added multiple_spiders.py script, logic for dividing up subprocesses can be done here, yeild triggers new scaper process so subprocesses not needed. also need to change post_spyder file to account for max recursion and allowed suffixed, and change output to be tailored to this project use case, specifically comparing different distributions effectiveness
+
+[33mcommit 6739d46bb3bbf88d8e50ba7548df2681ab9f9f1f[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Tue Mar 1 19:31:54 2022 -0500
+
+    added pdf of writeup to help w image issues
+
+[33mcommit 070ed108ec5a619b9ad722aa5146469c66cd2da3[m
+Author: connorc99 <connorcolecc@gmail.com>
+Date:   Tue Mar 1 19:25:50 2022 -0500
+
+    Added info from first project
