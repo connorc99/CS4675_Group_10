@@ -1,23 +1,45 @@
-log_count/INFO,32
-start_time,2022-04-14 21:42:00.085060
-scheduler/enqueued/memory,3
-scheduler/enqueued,3
-scheduler/dequeued/memory,3
-scheduler/dequeued,3
-downloader/request_count,3
-downloader/request_method_count/GET,3
-downloader/request_bytes,651
-downloader/response_count,3
-downloader/response_status_count/503,3
-downloader/response_bytes,33408
-log_count/DEBUG,16
-retry/count,2
-retry/reason_count/503 Service Unavailable,2
-log_count/ERROR,4
-retry/max_reached,1
-response_received_count,1
-httperror/response_ignored_count,1
-httperror/response_ignored_status_count/503,1
-elapsed_time_seconds,2.39924
-finish_time,2022-04-14 21:42:02.484300
+log_count/INFO,8780
+start_time,2022-04-14 23:37:49.532787
+scheduler/enqueued/memory,15098
+scheduler/enqueued,15098
+scheduler/dequeued/memory,15098
+scheduler/dequeued,15098
+downloader/request_count,15098
+downloader/request_method_count/GET,15098
+downloader/request_bytes,4660009
+log_count/DEBUG,151557
+downloader/response_count,15089
+downloader/response_status_count/200,10048
+downloader/response_bytes,872101886
+response_received_count,12536
+request_depth_max,36
+dupefilter/filtered,278005
+offsite/domains,3543
+offsite/filtered,267064
+downloader/response_status_count/302,1465
+httpcompression/response_bytes,742136
+httpcompression/response_count,32
+downloader/response_status_count/404,1929
+httperror/response_ignored_count,2532
+httperror/response_ignored_status_count/404,1929
+downloader/response_status_count/301,1040
+log_count/ERROR,721
+log_count/WARNING,44
+downloader/response_status_count/403,576
+httperror/response_ignored_status_count/403,576
+downloader/response_status_count/401,25
+httperror/response_ignored_status_count/401,25
+spider_exceptions/AttributeError,133
+downloader/exception_count,9
+downloader/exception_type_count/twisted.internet.error.TCPTimedOutError,6
+retry/count,10
+retry/reason_count/twisted.internet.error.TCPTimedOutError,4
+downloader/response_status_count/503,6
+retry/reason_count/503 Service Unavailable,4
+retry/max_reached,5
+httperror/response_ignored_status_count/503,2
+downloader/exception_type_count/twisted.internet.error.DNSLookupError,3
+retry/reason_count/twisted.internet.error.DNSLookupError,2
+elapsed_time_seconds,1261.405896
+finish_time,2022-04-14 23:58:50.938683
 finish_reason,finished
