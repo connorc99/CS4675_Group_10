@@ -12,7 +12,7 @@ Max depth:     10/15
 
 subprocesses = 2
 initial_depth = 10
-filter_depth = 25
+filter_depth = 35
 max_depth = 45
 
 import scrapy

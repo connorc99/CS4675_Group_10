@@ -1,6 +1,6 @@
 
 initial_depth = 10
-filter_depth = 25
+filter_depth = 35
 max_depth = 45
 
 '''

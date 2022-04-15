@@ -1,23 +1,45 @@
-log_count/INFO,15
-start_time,2022-04-14 21:47:33.642464
-scheduler/enqueued/memory,3
-scheduler/enqueued,3
-scheduler/dequeued/memory,3
-scheduler/dequeued,3
-downloader/request_count,3
-downloader/request_method_count/GET,3
-downloader/request_bytes,651
-log_count/DEBUG,8
-downloader/response_count,3
-downloader/response_status_count/503,3
-downloader/response_bytes,33408
-retry/count,2
-retry/reason_count/503 Service Unavailable,2
-log_count/ERROR,2
-retry/max_reached,1
-response_received_count,1
-httperror/response_ignored_count,1
-httperror/response_ignored_status_count/503,1
-elapsed_time_seconds,3.029328
-finish_time,2022-04-14 21:47:36.671792
+log_count/INFO,5976
+start_time,2022-04-15 00:18:44.593434
+scheduler/enqueued/memory,15010
+scheduler/enqueued,15010
+scheduler/dequeued/memory,15010
+scheduler/dequeued,15010
+downloader/request_count,15010
+downloader/request_method_count/GET,15010
+downloader/request_bytes,4519680
+downloader/response_count,14995
+downloader/response_status_count/200,8561
+downloader/response_bytes,807597833
+log_count/DEBUG,100167
+response_received_count,11954
+request_depth_max,36
+dupefilter/filtered,302416
+offsite/domains,4777
+offsite/filtered,278499
+downloader/response_status_count/302,1805
+downloader/response_status_count/404,2744
+httperror/response_ignored_count,3435
+httperror/response_ignored_status_count/404,2744
+httpcompression/response_bytes,558883
+httpcompression/response_count,27
+downloader/response_status_count/301,1190
+downloader/response_status_count/403,675
+httperror/response_ignored_status_count/403,675
+log_count/ERROR,444
+spider_exceptions/AttributeError,228
+log_count/WARNING,18
+downloader/response_status_count/503,6
+retry/count,14
+retry/reason_count/503 Service Unavailable,4
+retry/max_reached,7
+httperror/response_ignored_status_count/503,2
+downloader/exception_count,15
+downloader/exception_type_count/twisted.internet.error.TCPTimedOutError,9
+retry/reason_count/twisted.internet.error.TCPTimedOutError,6
+downloader/response_status_count/401,14
+httperror/response_ignored_status_count/401,14
+downloader/exception_type_count/twisted.internet.error.DNSLookupError,6
+retry/reason_count/twisted.internet.error.DNSLookupError,4
+elapsed_time_seconds,956.519724
+finish_time,2022-04-15 00:34:41.113158
 finish_reason,finished
