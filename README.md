@@ -8,13 +8,11 @@ Run "python multiple_spiders.py" inside of postscrape/spiders directory
 
 Python code for scraper in postscrape\postscrape\spiders\post_spyder.py. Distrubution managed by multiple_spiders.py
 
-Keyword list is in postscrape\current_stats_keyword_current_output as a csv mapping keyword to list of keywords
-
 
 
 ### Design
 
-Currently running BFS for each scraper
+Currently running DFS for each scraper
 
 Once we reach a certain level of depth from base URL (cc.gatech.edu ->c.gatech.edu/abc -> ...), we force the text after (c.gatech.edu/TEXT) to be in the prefix list provided to the class, otherwise URL is not considered
 
@@ -40,32 +38,19 @@ name- name of scraper for output
 
 
 
-## CSV Files
-
-These files are needed for the final analysis- for project 1, I took these into a Jupyter notebook and analyzed accordingly. We will want to alter these functions. I think it may be a good idea to add class variables inside of SuperSpider tracking each spiders current progress
 
 
+## File structure
 
-## To Do
+postscrape/postscrape/spiders/multiple_spiders.py is the manager for the distribution of suffixes and different subprocesses. This is where multiple processes are spawned. This is alaso where the database/ tables are initialized. 
 
-- Persistence of URLs for duplicate checking across spiders
-
-  https://stackoverflow.com/questions/51225781/how-to-prevent-duplicates-on-scrapy-fetching-depending-on-an-existing-json-list
-  https://stackoverflow.com/questions/61526698/scrapy-check-mongodb-for-duplicates-before-crawling
-
-  - Likely will create a JSON file, add URLs to said file, check if already in file - will be expensive but eh
-  - Brute force solution: add all URLs we have scraped to DB or JSON file, check for occurance of current URL in that database
-  - Could be a little wonky w/ 2 scrapers at once w/ read write issues, but should be sufficient for this project
-
-- Analysis of unique URLs scraped by each scraper, levels of recursion reached
-- Analysis of optimal DEPTH_LIMIT, max_depth, number of subprocesses and different distribution of suffix list for base URL
-- Unlikely we will end up doing recommendation system, enough work to do here for project
+postscrape/postscrape/spiders/post_spyder.py is an individual subprocess, or where each spider runs on its own. This is where links are actually processed.
 
 
-Notes/ to fix:
- - Currently filters out ANY duplicates - we want it to add URLs to queue to scrape even if it is in the database up until a certain level of depth is reached
- - No longer need CSV files
- - Add timestamps to SQL entries
+
+## Data storage
+
+SQLite takes output from Scrapy and stats we modified. These stats can be found inside of the postscrape/postscrape/spiders/db file. CSV files are dated/ no longer how we manage our data output.
 
 
 
