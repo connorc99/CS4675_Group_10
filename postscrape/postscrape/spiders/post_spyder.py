@@ -36,7 +36,7 @@ class SuperSpider(CrawlSpider):
         "online": []
     }
     custom_settings = {
-        "DEPTH_LIMIT": max_depth 
+        "DEPTH_LIMIT": max_depth
     }
     pages_crawled = 0
 
@@ -74,16 +74,12 @@ class SuperSpider(CrawlSpider):
         #If we already have the link in DB, only consider it if its in the inital sweep
         if already_in_db:
             self.duplicates_from_other_scraper += 1
-            #If we are deeper than the 
-            #if response.meta['depth'] < filter_depth or suffix in self.suffix_list:
-            if response.meta['depth'] <= self.initial_depth:
-                pass
-            else:
+            if response.meta['depth'] > self.initial_depth:
                 return
 
         #Periodically add stats to DB
         if self.crawler.stats.get_stats()["scheduler/dequeued"] - self.last_dequeue_value > 500:
-            self.last_dequeue_value = self.crawler.stats.get_stats()["scheduler/dequeued"] 
+            self.last_dequeue_value = self.crawler.stats.get_stats()["scheduler/dequeued"]
             self.write_stats()
 
         #Only add keyword info if this is a new page- else, just extract links!
@@ -91,8 +87,6 @@ class SuperSpider(CrawlSpider):
             for keyword in self.keywords:
                 if keyword in response.text.lower():
                     self.keywords[keyword].append(response.url)
-                else:
-                    pass
             self.add_to_db(response.url)
 
         #This part adds any new links we want to consider
@@ -101,44 +95,15 @@ class SuperSpider(CrawlSpider):
             if (response.meta['depth'] > self.filter_depth) and (suffix not in self.suffix_list):
                 print("Filtered out non matching suffix!")
             else:
-                #print("Adding in link {}".format(link))
                 yield scrapy.Request(link.url, callback=self.parse)
 
 
-    
+
     def get_suffix(self, link):
         try:
             suffix = link.split("edu")[1][0]
         except:
             suffix = ""
-
-    '''
-    def write_stats_old(self):
-        print("-------------------\nWriting stats! We are at {}".format(self.pages_crawled))
-        time.sleep(2)
-        try:
-                stats = self.crawler.stats.get_stats()
-                stats_path = "output_stats/{}/{}/".format(self.table_name, self.name)
-                with open('{}/stats_{}.csv'.format(stats_path, self.pages_crawled), 'w') as csv_file:
-                    writer = csv.writer(csv_file)
-                    for key, value in stats.items():
-                        writer.writerow([key, value])
-                    for key, value in self.keywords.items():
-                        writer.writerow([key, len(value)])
-                        print([key, len(value)])
-                    writer.writerow(["current_time", datetime.datetime.now()])
-
-                with open('{}/keword_stats.csv'.format(stats_path), 'w') as csv_file:
-                    writer = csv.writer(csv_file)
-                    for key, value in self.keywords.items():
-                        writer.writerow([key, value])
-                print("Added stats!")
-                time.sleep(2)
-        except Exception as e:
-            print("stats error!")
-            print(e)
-            time.sleep(3)
-    '''
 
     def write_stats(self):
         print("Writing stats...")
@@ -156,7 +121,7 @@ class SuperSpider(CrawlSpider):
                 dups_from_others = 0
             print(stats)
             insert_query = f'''
-            INSERT INTO {self.table_name} 
+            INSERT INTO {self.table_name}
             (
                 scraper_name,
                 enqueued,
@@ -175,7 +140,7 @@ class SuperSpider(CrawlSpider):
             VALUES
             (
                 '{self.name}',
-                {stats["scheduler/enqueued"]}, 
+                {stats["scheduler/enqueued"]},
                 {stats["scheduler/dequeued"]},
                 {stats["downloader/request_count"]},
                 {stats["downloader/response_count"]},
@@ -220,9 +185,6 @@ class SuperSpider(CrawlSpider):
     def check_in_db(self, url):
         try:
             print("checking in database...")
-            # with open("scraped_urls.json", "r") as json_file:
-            #     data = json.load(json_file)
-            #     return url in data["url"]
             self.cur.execute("select * from url where url='{}'".format(url))
             output = self.cur.fetchall()
             print("Checking if already in database- output from DB is {}".format(output))
@@ -236,9 +198,6 @@ class SuperSpider(CrawlSpider):
 
     def add_to_db(self, url):
         print("adding to db...")
-        # with open("scraped_urls.json", "w") as json_file:
-        #     data = json.load(json_file)
-        #     return url in data["url"]
         print("Adding new url to database of {}".format(url))
         self.cur.execute("insert into url (scraper_id, url) values ('{}', '{}')".format(self.name, url))
         self.connection.commit()
