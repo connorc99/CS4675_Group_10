@@ -1,0 +1,3 @@
+insertion_id,scraper_name,start_time,enqueued,dequeued,request_count,response_count,duplicates_filtered_internal,duplicates_filtered_from_others,offsites_filtered,computing_count,undergrad_count,research_count,online_count,current_time,subprocesses,initial_depth,filter_depth,max_depth
+1,scraper_1,2022-04-11 20:31:52,1,1,1,1,0,0,0,0,0,0,0,2022-04-11 20:31:52,2,2,3,5
+2,scraper_2,2022-04-11 20:31:52,1,1,1,1,0,0,0,1,1,1,1,2022-04-11 20:31:52,2,2,3,5

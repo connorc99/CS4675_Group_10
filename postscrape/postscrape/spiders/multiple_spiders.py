@@ -20,7 +20,7 @@ from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
-from post_spyder import SuperSpider 
+from post_spyder import SuperSpider
 import sqlite3
 from sqlite3 import Error
 import time
@@ -35,30 +35,24 @@ settings = get_project_settings()
 runner = CrawlerRunner()
 
 
-table_name = "subprocesses_{}_initialdepth_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth) 
+table_name = "subprocesses_{}_initialdepth_{}_filterdepth_{}_maxdepth_{}".format(subprocesses, initial_depth, filter_depth, max_depth)
 conn = sqlite3.connect(".\\db\\urldatabase.db")
 print(sqlite3.version)
 cur = conn.cursor()
 
 
 try:
-    #self.cur.execute("CREATE TABLE IF NOT EXISTS scraper (scraper_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), max_depth INT, filter_depth INT, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
     cur.execute("CREATE TABLE IF NOT EXISTS url (url_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, scraper_id INT NOT NULL, url VARCHAR(255) NOT NULL, creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
-    #self.cur.execute("INSERT INTO scraper (name, max_depth, filter_depth) VALUES ('{}', {}, {})".format(self.name, self.max_depth, self.filter_depth));
     conn.commit()
 except Error as e:
     print(e)
     time.sleep(4)
-
 
 #Clear out table of URLs for new scrapers to write to
 try:
     cur.execute("delete from url")
 except:
     pass
-
-
-
 
 #Create fresh table to track stats with
 cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
@@ -78,20 +72,19 @@ cur.execute('''
     undergrad_count INT,
     research_count INT,
     online_count INT,
-    current_time TIMESTAMP, 
+    current_time TIMESTAMP,
     subprocesses INT DEFAULT {},
     initial_depth INT DEFAULT {},
     filter_depth INT DEFAULT {},
     max_depth INT DEFAULT {}
     )
-    
+
     '''.format(table_name, subprocesses, initial_depth, filter_depth, max_depth))
 conn.commit()
 conn.close()
 
 print("Created table, about to start...")
 time.sleep(3)
-
 
 import string
 alphabet_list = list(string.ascii_lowercase)
